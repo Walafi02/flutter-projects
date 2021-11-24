@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:cep/app/home/search_cep_bloc.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,32 +10,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final textController = TextEditingController();
-  bool isLoading = false;
-  String? error;
-  var cepResult = {};
 
-  Future<void> searchCepString(String cep) async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      final response = await Dio().get("https://viacep.com.br/ws/$cep/json/");
-
-      setState(() {
-        cepResult = response.data;
-        error = null;
-      });
-    } catch (e) {
-      setState(() {
-        error = "Error na pesquisa";
-        cepResult = {};
-      });
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
+  final searchCepBox = SearchCepBox();
 
   @override
   Widget build(BuildContext context) {
@@ -63,21 +39,37 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10),
               ElevatedButton(
                   onPressed: () {
-                    searchCepString(textController.text);
+                    searchCepBox.searchCep.add(textController.text);
                   },
                   child: Text("Pesquisar")),
               SizedBox(
                 height: 20,
               ),
-              if (isLoading)
-                Expanded(child: Center(child: CircularProgressIndicator())),
-              if (error != null)
-                Text(
-                  error ?? '',
-                  style: TextStyle(color: Colors.red),
-                ),
-              if (!isLoading && cepResult.isNotEmpty)
-                Text("Cidade: ${cepResult["localidade"]}")
+              StreamBuilder<SearchCepState>(
+                  stream: searchCepBox.cepResult,
+                  builder: (context, snapShot) {
+                    if (!snapShot.hasData) {
+                      return Container();
+                    }
+
+                    var state = snapShot.data;
+
+                    if (state is SearchCepError) {
+                      return Text(
+                        state.message,
+                        style: TextStyle(color: Colors.red),
+                      );
+                    }
+
+                    if (state is SearchCepLoading) {
+                      return Expanded(
+                          child: Center(child: CircularProgressIndicator()));
+                    }
+
+                    state = state as SearchCepSuccess;
+
+                    return Text("Cidade: ${state.data["localidade"]}");
+                  }),
             ],
           ),
         ),
