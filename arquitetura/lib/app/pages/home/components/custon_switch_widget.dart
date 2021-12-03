@@ -1,4 +1,4 @@
-import 'package:arquitetura/app/controllers/app_controller.dart';
+import 'package:arquitetura/app/app_controller.dart';
 import 'package:flutter/material.dart';
 
 class CustonSwitchWidget extends StatelessWidget {
@@ -7,7 +7,7 @@ class CustonSwitchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Switch(
-      value: AppController.instance.themeSwitch.value,
+      value: AppController.instance.isDark,
       onChanged: (value) {
         AppController.instance.changeTheme(value);
       },

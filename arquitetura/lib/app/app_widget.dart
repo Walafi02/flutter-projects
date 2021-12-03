@@ -1,4 +1,4 @@
-import 'package:arquitetura/app/controllers/app_controller.dart';
+import 'package:arquitetura/app/app_controller.dart';
 import 'package:arquitetura/app/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 
