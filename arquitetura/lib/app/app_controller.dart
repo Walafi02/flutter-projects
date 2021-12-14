@@ -1,5 +1,3 @@
-import 'package:arquitetura/app/interfaces/local_storage_interface.dart';
-import 'package:arquitetura/app/models/appconfig_model.dart';
 import 'package:arquitetura/app/services/shared_local_storage_service.dart';
 import 'package:arquitetura/app/viewmodels/change_theme_view_model.dart';
 import 'package:flutter/cupertino.dart';
