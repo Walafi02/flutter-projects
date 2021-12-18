@@ -12,6 +12,10 @@ class ApiadviserViewModel {
   });
 
   fill() async {
-    apiadvisorModel.value = await repository.getTime();
+    try {
+      apiadvisorModel.value = await repository.getTime();
+    } catch (e) {
+      print(e);
+    }
   }
 }

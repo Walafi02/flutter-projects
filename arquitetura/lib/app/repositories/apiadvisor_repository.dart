@@ -1,4 +1,3 @@
-import 'package:arquitetura/app/app_widget.dart';
 import 'package:arquitetura/app/interfaces/client_http_services_interfice.dart';
 import 'package:arquitetura/app/models/apiadvisor_model.dart';
 import 'package:arquitetura/app/repositories/apiadvisor_repository_interface.dart';
